@@ -1,0 +1,15 @@
+[project]
+name = "GoveeOverHTTP"
+description = "Control Govee BLE Lights over HTTP."
+authors = [
+    { name = "Joe Jagger", email = "joejaggerweb@outlook.com" }
+]
+
+version = "0.0.1"
+license = { text = "MIT" } 
+readme = "README.md"
+dependencies = [
+    "govee_api_ble==0.0.9",
+    "quart==0.20.0",
+    "uvicorn"
+]
