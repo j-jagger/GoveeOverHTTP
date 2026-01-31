@@ -1,12 +1,14 @@
 # GoveeOverHTTP
 
-## A ``govee_api_ble`` Web Wrapper
+## A Govee BLE Web Wrapper
 
 #### By Joe Jagger
 #### Govee Library by Cyprus Snodgrass
 ##### https://pypi.org/project/govee-api-ble/
 
-!! WORK IN PROGRESS !!
+# !! WORK IN PROGRESS !!
+31/01/2026: Development is probably going to be very slow. To test, I have to run a VSC SSH server on my raspberry pi, since I don't have a BT adapter, but since I don't have a power brick, it passes out every few minutes of not being used. 
+
 
 I have a rather annoyingly common situation. I have a set of H613E Govee BLE lights. I love them dearly, except I despise their manufacturer. Govee's app is slow, mobile only with no pc build, clunky, bloated, and full to the absolute brim with advertisements for their other products. Also, they refuse to release an official BLE bridge. Hence:
 
@@ -19,11 +21,6 @@ GOH exposes itself on TCP Port 8585. From there, numerous HTTP-based endpoints c
 
 I plan to create docker dists at some point, wherein you pass in the BLE Iface and it Just Works (TM).
 
-For now, 
-## Run using run.sh. 
-
-### How long will this work for?
-Probably forever. Being BLE devices, as long as you don't update them in the Govee app, the library I use for the device interfacing (``govee_api_ble``), will work infinitely. No finnicking with Home Assistant or HomeBridge.
 
 
 I have attempted to keep this light due to the fact I'm going to be running it on a Raspberry PI 3B.
