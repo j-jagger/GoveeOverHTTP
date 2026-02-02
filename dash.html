@@ -15,28 +15,46 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark-subtle shadow-sm">
         <div class="container-fluid">
-            <a class="navbar-brand">GoveeOverHTTP</a>
+            <img class="img-fluid" style="width: 5rem; filter: invert(100%);" src="/logo/">
+            <a class="btn btn-primary" href="https://github.com/j-jagger/GoveeOverHTTP">View on GitHub</a>
         </div>
     </nav>
 
     <main class="container my-5">
         <div class="row">
             <div class="col-md-8">
-                <h1 class="mb-4">Welcome to GoveeOverHTTP!</h1>
-                <p for="colorPicker">Set Colour</p>
-                <input type="color" id="colorPicker">
+                <img class="img-fluid" style="width: 50rem; filter: invert(100%);" src="/logo/">
+                <h1 for="powerState" class="mt-4">Interfaces</h1>
 
-                <p for="powerState" class="mt-4">Set Power</p>
-                <input type="checkbox" id="powerState">
+                <div class="mb-3 form-check">
+                    <input class="form-check-input" type="checkbox" id="powerState">
+                    <label class="form-check-label" for="powerState">Power</label>
+                </div>
+
+
+                <div class="mb-3">
+                    <label for="brightnessSlider" class="form-label">Brightness</label>
+                    <input type="range" class="form-range" id="brightnessSlider" min="0" max="100">
+                </div>
+
+
+                <div class="mt-3">
+                    <label for="colourPicker" class="form-label">Colour</label>
+                    <input class="form-control form-control-color" type="color" id="colourPicker" value="#0b0b0b"
+                        title="Choose your colour">
+                    <p class="my-3">Click this box to open the colour picker.</p>
+                </div>
+
             </div>
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Notice:</h5>
-                        <p class="card-text">GOH is completely unfinished. You are running a Proof of Concept.
+                        <p class="card-text">GOH is unfinished. You are running a Proof of Concept.
 
-                            Also, try not to drag the colour thing too much or the Bluetooth Interface dies for a
-                            moment.
+                            However, I use it personally, and so far have had zero issues.
+
+                            Auth update soon.
 
                         </p>
                     </div>
@@ -48,8 +66,10 @@
     </main>
 
     <script>
-        const colorPicker = document.getElementById("colorPicker");
+        const colourPicker = document.getElementById("colourPicker");
         const powerState = document.getElementById("powerState");
+        const brightnessSlider = document.getElementById("brightnessSlider");
+
 
         const title = document.getElementById("title");
         title.innerText = `G.O.H. @ ${window.location.host}`
@@ -63,12 +83,17 @@
             return { r, g, b };
         }
 
-        colorPicker.addEventListener("input", () => {
-            const rgb = hexToRgb(colorPicker.value);
-            const req = fetch(`/goh/api/set_colour?rgb=${rgb.r}-${rgb.g}-${rgb.b}`)
+        let colourTimeout;
 
-            console.log(`RGB: (${rgb.r}, ${rgb.g}, ${rgb.b})`);
+        colourPicker.addEventListener("input", () => {
+            clearTimeout(colourTimeout);
+            colourTimeout = setTimeout(() => {
+                const rgb = hexToRgb(colourPicker.value);
+                fetch(`/goh/api/set_colour?rgb=${rgb.r}-${rgb.g}-${rgb.b}`);
+                console.log(`RGB: (${rgb.r}, ${rgb.g}, ${rgb.b})`);
+            }, 200);
         });
+
 
         powerState.addEventListener("input", () => {
             const state = powerState.checked;
@@ -77,6 +102,15 @@
 
 
         })
+
+        let brightnessTimeout;
+        brightnessSlider.addEventListener("input", () => {
+            clearTimeout(brightnessTimeout);
+            brightnessTimeout = setTimeout(() => {
+                fetch(`/goh/api/set_brightness?percent=${brightnessSlider.value}`);
+            }, 200);
+        });
+
     </script>
 </body>
 

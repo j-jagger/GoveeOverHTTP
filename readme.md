@@ -60,3 +60,14 @@ Segments are supposed to be supported, but I don't have a light unit capable of 
 
 
 ---
+
+### /goh/api/set_brightness
+#### Method: GET
+Simple endpoint allowing for the setting of the device's brightness.
+
+Usage: ``http://device:8585/goh/api/set_brightness?percent=[0-100]``
+
+To use this, pass your brightness amount as a 0-100 number.
+
+
+---

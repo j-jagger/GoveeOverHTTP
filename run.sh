@@ -1,3 +1,3 @@
 #!/bin/bash
-source venv/bin/activate
-python main.py
+./.venv/bin/pip install requirements.txt
+./.venv/bin/python3 main.py

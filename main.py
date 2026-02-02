@@ -1,11 +1,11 @@
 from govee_api_ble import GoveeDevice
 import json
 from pathlib import Path
-from quart import Quart,request, jsonify,send_from_directory
+from quart import Quart,request, jsonify,send_from_directory,redirect
 from uvicorn import run
 
 
-app = Quart(__name__)
+app = Quart(__name__,static_folder=None)
 
 CONFIG = json.loads(Path("./config.json").read_text("utf-8"))
 device = GoveeDevice(CONFIG.get("govee_mac"))
@@ -20,6 +20,16 @@ def str2bool(inp:str)->bool:
     else:
         return False
 
+
+@app.get("/logo/")
+async def logo_endpoint():
+    return await send_from_directory(Path("./branding"),"goh.png")
+    # A silly way to serve a singular file.
+
+
+@app.get("/")
+async def rootredir():
+    return redirect("/goh/dash/")
 
 @app.get("/goh/dash/")
 async def dash():
@@ -38,6 +48,30 @@ async def set_power():
         return jsonify({
             "message":"Internal server error. Check STDOUT."
         })
+
+@app.get("/goh/api/set_brightness")
+async def set_brightness():
+    percent = request.args.get("percent",None)
+
+    if not percent:
+        return jsonify({
+            "message":"Please pass ?percent=0-100"
+        })
+
+
+
+    try:
+        device.setBrightness(int(percent))
+
+        return jsonify({
+            "message":f"Set lights to {percent} successfully."
+        })
+    except Exception as e:
+        print(f"ERROR: {e}")
+        return jsonify({
+            "message":"Internal server error. Check STDOUT."
+        })
+
 
 @app.get("/goh/api/set_colour")
 async def set_colour():
