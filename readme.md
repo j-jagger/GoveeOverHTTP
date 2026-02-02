@@ -1,4 +1,4 @@
-# GoveeOverHTTP
+<img src="/branding/goh.png" style="filter:invert(100%);" alt="GoveeOverHTTP logo">
 
 ## A Govee BLE Web Wrapper
 
