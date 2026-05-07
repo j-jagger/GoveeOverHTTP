@@ -1,39 +1,36 @@
+# G.O.H
+# Joe Jagger
+
+# External Imports
 from govee_api_ble import GoveeDevice
 import json
 from pathlib import Path
+from socket import gethostname
 from quart import Quart,request, jsonify,send_from_directory,redirect
 from uvicorn import run
 
 
-app = Quart(__name__,static_folder=None)
+# Internal Imports
+from core.utils import str2bool
+
+
+app = Quart(__name__)
 
 CONFIG = json.loads(Path("./config.json").read_text("utf-8"))
-device = GoveeDevice(CONFIG.get("govee_mac"))
 
 
-def str2bool(inp:str)->bool:
-    if type(inp) != str:
-        return False
-    inp = inp.lower()
-    if inp == "true":
-        return True
-    else:
-        return False
 
+try:
+    device = GoveeDevice(CONFIG.get("govee_mac"))
+except Exception as e:
+    print(f"[FATAL] Failed to initalize Govee BLE API Device: {e}")
+    exit(1)
 
-@app.get("/logo/")
-async def logo_endpoint():
-    return await send_from_directory(Path("./branding"),"goh.png")
-    # A silly way to serve a singular file.
 
 
 @app.get("/")
-async def rootredir():
-    return redirect("/goh/dash/")
-
-@app.get("/goh/dash/")
 async def dash():
-    return await send_from_directory(Path("./"),"dash.html")
+    return await send_from_directory(Path("./static"),"dash.html")
 
 @app.get("/goh/api/set_power")
 async def set_power():
@@ -57,8 +54,6 @@ async def set_brightness():
         return jsonify({
             "message":"Please pass ?percent=0-100"
         })
-
-
 
     try:
         device.setBrightness(int(percent))
@@ -107,4 +102,5 @@ async def set_colour():
         })
 
 if __name__ == "__main__":
-    run(app,port=8585,host="0.0.0.0")
+    print("GOH ASGI Starting.")
+    run("main:app",port=8585,host="0.0.0.0",workers=2)

@@ -1,19 +1,25 @@
-<img src="/branding/goh.png" style="filter:invert(100%);" alt="GoveeOverHTTP logo">
-
-## A Govee BLE Web Wrapper
+# A Govee BLE Web Wrapper
 
 #### By Joe Jagger
 #### Govee Library by Cyprus Snodgrass
 ##### https://pypi.org/project/govee-api-ble/
 
 # !! WORK IN PROGRESS !!
-31/01/2026: Development is probably going to be very slow. To test, I have to run a VSC SSH server on my raspberry pi, since I don't have a BT adapter, but since I don't have a power brick, it passes out every few minutes of not being used. 
 
 
 I have a rather annoyingly common situation. I have a set of H613E Govee BLE lights. I love them dearly, except I despise their manufacturer. Govee's app is slow, mobile only with no pc build, clunky, bloated, and full to the absolute brim with advertisements for their other products. Also, they refuse to release an official BLE bridge. Hence:
 
 ### Why does this exist?
 I want my lights to turn on and off. And I want to change their colour. But I don't want to go through my phone and through some stupid app that takes way too long to connect to do so.
+
+
+## To Do:
+
+- Heartbeat WebSocket
+- Basic Web Auth or perhaps a simpler proprietary system.
+- Perhaps writing a custom BLE library.
+- Nicer interface.
+- Console Colours.
 
 
 ### How do I use it?
